@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -45,9 +46,9 @@ fun searchItems(
 }
 
 interface GithubService {
-    @GET("search/code")
+    @GET("search/code?sort=url&order=desc")
     fun searchItem(
-        @Query("q") query: String,
+        @Query("q", encoded = true) query: String,
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int
     ): Observable<GithubData>
@@ -67,6 +68,7 @@ interface GithubService {
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(GithubService::class.java)
         }
