@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.paginglibrarytest.model.Item
+import androidx.room.TypeConverters
+import com.example.paginglibrarytest.model.*
 
 /**
  * PagingLibraryTest
@@ -14,10 +15,12 @@ import com.example.paginglibrarytest.model.Item
  */
 
 @Database(
-    entities = [Item::class],
+    entities = [Item::class, Repository::class, Owner::class],
     version = 1,
     exportSchema = false
 )
+
+@TypeConverters(RepositoryPersistentConverter::class, OwnerPersistentConverter::class)
 abstract class RepoDatabase : RoomDatabase() {
 
     abstract fun reposDao(): RepoDao
