@@ -2,7 +2,7 @@ package com.example.paginglibrarytest.model
 
 import androidx.room.Entity
 
-@Entity
+@Entity(tableName = "ITEM")
 data class Item(
     val git_url: String,
     val html_url: String,

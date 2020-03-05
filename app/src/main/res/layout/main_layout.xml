@@ -18,5 +18,12 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/app_name" />
+
     </LinearLayout>
 </layout>

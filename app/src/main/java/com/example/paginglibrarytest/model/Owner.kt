@@ -2,7 +2,7 @@ package com.example.paginglibrarytest.model
 
 import androidx.room.Entity
 
-@Entity
+@Entity(tableName = "OWNER")
 data class Owner(
     val avatar_url: String,
     val events_url: String,

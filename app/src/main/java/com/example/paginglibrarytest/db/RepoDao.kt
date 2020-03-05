@@ -18,6 +18,6 @@ interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(posts: List<Item>)
 
-    @Query("SELECT * FROM Item")
+    @Query("SELECT * FROM ITEM")
     fun findAll(): LiveData<List<Item>>
 }
