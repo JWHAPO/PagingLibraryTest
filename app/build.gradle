@@ -4,31 +4,67 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
     defaultConfig {
         applicationId "com.example.paginglibrarytest"
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    dataBinding{
+        enabled = true
+    }
+    kapt {
+        generateStubs = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    kapt deps.glide.compiler
+    kapt deps.room.compiler
+    kapt deps.lifecycle.compiler
+
+    implementation deps.kotlin.stdlib
+    implementation deps.appcompat
+    implementation deps.core_ktx
+    implementation deps.constraintlayout
+    implementation deps.recyclerview
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.converter_gson
+    implementation deps.retrofit.adapter_rxjava2
+    implementation deps.okhttp.logging_interceptor
+    implementation deps.okhttp.runtime
+    implementation deps.gson.runtime
+    implementation deps.glide.runtime
+    implementation deps.paging
+    implementation deps.room.runtime
+    implementation deps.rxjava2
+    implementation deps.rxandroid
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+
+    testImplementation deps.junit
 }
