@@ -22,7 +22,7 @@ class MainViewModel(private val repository: GithubRepository) : ViewModel(){
         repository.search(it)
     }
 
-    val repos: LiveData<PagedList<Item>> = Transformations.switchMap(repoResult) { it.data }
+    val items: LiveData<PagedList<Item>> = Transformations.switchMap(repoResult) { it.data }
     val networkErrors: LiveData<String> = Transformations.switchMap(repoResult) { it.networkErrors }
 
     fun searchItem(query: String){

@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         binding.mainRv.adapter = adapter
-        viewModel.repos.observe(this, Observer<PagedList<Item>> {
+        viewModel.items.observe(this, Observer<PagedList<Item>> {
             Log.d("Activity", "list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
