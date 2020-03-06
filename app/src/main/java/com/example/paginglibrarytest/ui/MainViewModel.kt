@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.example.paginglibrarytest.model.Item
 import com.example.paginglibrarytest.model.ItemSearchResult
-import com.example.paginglibrarytest.repository.GithubRepository
+import com.example.paginglibrarytest.data.GithubRepository
 
 /**
  * PagingLibraryTest
@@ -16,29 +17,16 @@ import com.example.paginglibrarytest.repository.GithubRepository
  */
 class MainViewModel(private val repository: GithubRepository) : ViewModel(){
 
-    companion object {
-        private const val VISIBLE_THRESHOLD = 5
-    }
-
     private val queryLiveData = MutableLiveData<String>()
     private val repoResult: LiveData<ItemSearchResult> = Transformations.map(queryLiveData) {
         repository.search(it)
     }
 
-    val repos: LiveData<List<Item>> = Transformations.switchMap(repoResult) { it.data }
+    val repos: LiveData<PagedList<Item>> = Transformations.switchMap(repoResult) { it.data }
     val networkErrors: LiveData<String> = Transformations.switchMap(repoResult) { it.networkErrors }
 
     fun searchItem(query: String){
         queryLiveData.postValue(query)
-    }
-
-    fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
-        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
-            val immutableQuery = lastQueryValue()
-            if (immutableQuery != null) {
-                repository.requestMore(immutableQuery)
-            }
-        }
     }
 
     fun lastQueryValue(): String? = queryLiveData.value

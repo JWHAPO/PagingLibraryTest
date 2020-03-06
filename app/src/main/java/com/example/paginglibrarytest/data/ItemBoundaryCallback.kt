@@ -1,35 +1,36 @@
-package com.example.paginglibrarytest.repository
+package com.example.paginglibrarytest.data
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.paginglibrarytest.api.GithubData
+import androidx.paging.PagedList
 import com.example.paginglibrarytest.api.GithubService
 import com.example.paginglibrarytest.api.searchItems
 import com.example.paginglibrarytest.db.GithubLocalCache
-import com.example.paginglibrarytest.model.ItemSearchResult
+import com.example.paginglibrarytest.model.Item
 
 /**
  * PagingLibraryTest
- * Class: GithubRepository
- * Created by JEONGWOOKIM on 2020-03-05.
+ * Class: ItemBoundaryCallback
+ * Created by JEONGWOOKIM on 2020-03-06.
  * Description:
  */
-class GithubRepository (
-    private val service: GithubService,
-    private val cache: GithubLocalCache
-){
+class ItemBoundaryCallback(
+    private val  query: String,
+    private val  service: GithubService,
+    private val  cache: GithubLocalCache
+) : PagedList.BoundaryCallback<Item>() {
+
     private var lastRequestedPage = 1
-    private val networkError = MutableLiveData<String>()
+    private val _networkErrors = MutableLiveData<String>()
+    val networkErrors: LiveData<String>
+        get() = _networkErrors
     private var isRequestInProgress = false
 
-    fun search(query: String): ItemSearchResult {
-        lastRequestedPage = 1
+    override fun onZeroItemsLoaded() {
         requestAndSaveData(query)
-
-        val data = cache.findAll()
-        return ItemSearchResult(data, networkError)
     }
 
-    fun requestMore(query: String){
+    override fun onItemAtEndLoaded(itemAtEnd: Item) {
         requestAndSaveData(query)
     }
 
@@ -43,14 +44,13 @@ class GithubRepository (
                 isRequestInProgress = false
             }
         },{ error ->
-            networkError.postValue(error)
+            _networkErrors.postValue(error)
             isRequestInProgress = false
         })
     }
 
-
     companion object {
-        private const val NETWORK_PAGE_SIZE = 50
+        private const val NETWORK_PAGE_SIZE = 40
     }
 
 }

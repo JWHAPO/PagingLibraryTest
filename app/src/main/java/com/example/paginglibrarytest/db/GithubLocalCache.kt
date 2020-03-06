@@ -2,6 +2,8 @@ package com.example.paginglibrarytest.db
 
 import android.database.Observable
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.PagedList
 import com.example.paginglibrarytest.model.Item
 import java.util.concurrent.Executor
 
@@ -22,7 +24,7 @@ class GithubLocalCache(
         }
     }
 
-    fun findAll(): LiveData<List<Item>> {
+    fun findAll(): DataSource.Factory<Int, Item> {
         return repoDao.findAll()
     }
 }

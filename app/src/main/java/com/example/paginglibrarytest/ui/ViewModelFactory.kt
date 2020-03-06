@@ -2,7 +2,7 @@ package com.example.paginglibrarytest.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.paginglibrarytest.repository.GithubRepository
+import com.example.paginglibrarytest.data.GithubRepository
 
 /**
  * PagingLibraryTest

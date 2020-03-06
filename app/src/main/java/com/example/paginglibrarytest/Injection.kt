@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.paginglibrarytest.api.GithubService
 import com.example.paginglibrarytest.db.GithubLocalCache
 import com.example.paginglibrarytest.db.RepoDatabase
-import com.example.paginglibrarytest.repository.GithubRepository
+import com.example.paginglibrarytest.data.GithubRepository
 import com.example.paginglibrarytest.ui.ViewModelFactory
 import java.util.concurrent.Executors
 

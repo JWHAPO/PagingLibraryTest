@@ -1,6 +1,7 @@
 package com.example.paginglibrarytest.model
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 
 /**
  * PagingLibraryTest
@@ -9,6 +10,6 @@ import androidx.lifecycle.LiveData
  * Description:
  */
 data class ItemSearchResult(
-    val data: LiveData<List<Item>>,
+    val data: LiveData<PagedList<Item>>,
     val networkErrors: LiveData<String>
 )

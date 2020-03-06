@@ -1,6 +1,8 @@
 package com.example.paginglibrarytest.db
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.PagedList
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -19,5 +21,5 @@ interface RepoDao {
     fun insert(posts: List<Item>)
 
     @Query("SELECT * FROM item order by url desc")
-    fun findAll(): LiveData<List<Item>>
+    fun findAll(): DataSource.Factory<Int, Item>
 }
